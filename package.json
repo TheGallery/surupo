@@ -15,12 +15,14 @@
   "author": "Joseph Psychas <sirios2222@yahoo.gr>",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "1.18.2",
     "connect-mongo": "1.3.2",
     "dotenv": "4.0.0",
     "express": "4.15.5",
     "express-session": "1.15.5",
     "mongoose": "4.11.13",
     "passport": "0.4.0",
-    "passport-twitter": "1.0.4"
+    "passport-twitter": "1.0.4",
+    "yelp-fusion": "1.0.3"
   }
 }

@@ -9,7 +9,16 @@ auth.get('/twitter/callback', passport.authenticate('twitter', {
 }));
 
 auth.get('/logout', (req, res) => {
-  // log the user out
+  req.logout();
+  res.redirect('/');
+});
+
+auth.get('/', (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.json(req.user);
+  }
+
+  return res.send('User is not authenticated');
 });
 
 module.exports = auth;
