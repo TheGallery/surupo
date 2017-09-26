@@ -16,7 +16,7 @@ attendance.post('/', (req, res) => {
     return res.status(401).json({error: 'User is not authenticated'});
   }
 
-  attendanceCtrl.add({id: '59c9fe43f9302aa52a46e8bc'}, req.body.businessId, (err) => {
+  attendanceCtrl.add(req.user, req.body.businessId, (err) => {
     if (err) {
       return res.status(500).json({error: 'Database error.'});
     }
@@ -30,7 +30,7 @@ attendance.delete('/', (req, res) => {
     return res.status(401).json({error: 'User is not authenticated'});
   }
 
-  attendanceCtrl.remove({id: '59c9fe43f9302aa52a46e8bc'}, req.body.businessId, (err) => {
+  attendanceCtrl.remove(req.user, req.body.businessId, (err) => {
     if (err) {
       return res.status(500).json({error: 'Database error.'});
     }
