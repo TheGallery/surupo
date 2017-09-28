@@ -1,5 +1,11 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import routes from './config/routes';
+import { css } from 'glamor';
+import 'glamor/reset';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+css.global('html, body', {
+  fontFamily: 'Nunito, sans-serif',
+  fontSize: '17px'
+});
+
+ReactDOM.render(routes, document.getElementById('root'));
