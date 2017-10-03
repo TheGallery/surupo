@@ -6,9 +6,14 @@
     "type": "git",
     "url": "https://github.com/TheGallery/surupo"
   },
-  "main": "index.js",
+  "main": "server.js",
+  "engines": {
+    "node": "8.x.x"
+  },
   "scripts": {
-    "start": "nodemon server.js",
+    "dev-start": "nodemon server.js",
+    "start": "node server.js",
+    "postinstall": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Joseph Psychas <sirios2222@yahoo.gr>",
