@@ -2,6 +2,7 @@ import React from 'react';
 import glamorous from 'glamorous';
 
 const Root = glamorous.div({
+  marginTop: 'auto',
   padding: '10px 0',
   color: 'white'
 });
