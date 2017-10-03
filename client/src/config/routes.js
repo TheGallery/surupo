@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../redux/store';
 import glamorous from 'glamorous';
@@ -9,6 +9,7 @@ import Businesses from '../components/Businesses';
 import Signin from '../components/Signin';
 import Authentication from '../components/Authentication';
 import Footer from '../components/Footer';
+import FourOhFour from '../components/FourOhFour';
 
 import { isAuthenticated } from '../utils/user';
 
@@ -33,19 +34,22 @@ const routes = (
   <Provider store={store}>
     <Router>
       <App>
-        <Route path='/' exact render={(props) => (
-          <Container>
-            <Authentication isAuthenticated={isAuthenticated()} />
-            <Welcome />
-            <Businesses history={props.history} />
-            <Footer />
-          </Container>
-        )} />
-        <Route path='/signin' render={() => (
-          isAuthenticated()
-            ? <Redirect to='/' />
-            : <Signin />
-        )} />
+        <Switch>
+          <Route path='/' exact render={(props) => (
+            <Container>
+              <Authentication isAuthenticated={isAuthenticated()} />
+              <Welcome />
+              <Businesses history={props.history} />
+              <Footer />
+            </Container>
+          )} />
+          <Route path='/signin' render={() => (
+            isAuthenticated()
+              ? <Redirect to='/' />
+              : <Signin />
+          )} />
+          <Route component={FourOhFour} />
+        </Switch>
       </App>
     </Router>
   </Provider>
