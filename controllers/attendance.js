@@ -2,6 +2,16 @@ const mongoose = require('mongoose');
 const Attendance = mongoose.model('Attendance');
 const Users = mongoose.model('Users');
 
+// Get attendance of all the businesses passed in the first argument
+exports.get = function (businesses, cb) {
+  Attendance.find({
+    businessId: {
+      $in: businesses
+    }
+  }).exec(cb);
+};
+
+// Increment business and user attendance
 exports.add = function (user, businessId, cb) {
   Users.updateOne({_id: user.id}, {
     $addToSet: {
@@ -26,14 +36,7 @@ exports.add = function (user, businessId, cb) {
   });
 };
 
-exports.get = function (businesses, cb) {
-  Attendance.find({
-    businessId: {
-      $in: businesses
-    }
-  }).exec(cb);
-};
-
+// Decrement business and user attendance
 exports.remove = function (user, businessId, cb) {
   Users.updateOne({_id: user.id}, {
     $pull: {
@@ -45,9 +48,7 @@ exports.remove = function (user, businessId, cb) {
   .exec((err, result) => {
     if (err || result.nModified !== 1) return cb(err);
 
-    Attendance.findOneAndUpdate({
-      businessId
-    }, {
+    Attendance.findOneAndUpdate({businessId}, {
       $inc: {
         attending: -1
       }

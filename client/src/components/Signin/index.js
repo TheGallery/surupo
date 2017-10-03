@@ -57,7 +57,9 @@ const BackButton = glamorous(Link)({
 function Signin () {
   return (
     <Root>
-      <BackButton to='/'><i className='fa fa-angle-left' /> Back Home</BackButton>
+      <BackButton to='/'>
+        <i className='fa fa-angle-left' /> Back Home
+      </BackButton>
       <Title>Signin</Title>
       <SocialButton href='/auth/twitter'>
         <i className='fa fa-twitter' /> Sign in with Twitter

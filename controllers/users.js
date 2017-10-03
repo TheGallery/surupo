@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Users = mongoose.model('Users');
 
+// Add the user to the DB if this is the first time he is logging in
 exports.login = function (profile, cb) {
   Users.findOneAndUpdate({
     provider: profile.provider,
@@ -17,6 +18,7 @@ exports.login = function (profile, cb) {
   }).exec(cb);
 };
 
+// Get user by his ID
 exports.getOne = function (id, cb) {
   Users.findById(id).select('attendance location').exec(cb);
 };

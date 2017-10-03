@@ -38,7 +38,6 @@ export default function reducer (user = null, action) {
         ]
       };
     case REMOVE_USER_ATTENDANCE:
-    console.log('test');
       return {
         ...user,
         attendance: [

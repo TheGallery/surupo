@@ -10,8 +10,8 @@ exports.getBusinesses = function (location, user, cb) {
         location
       })
       .then(res => {
-        // The result of updateLocation is irrelevant so
-        // we don't pass any errors to the client.
+        // The result of updateLocation is not app-breaking and there is no need
+        // to wait for it in order to return a response.
         if (user) {
           users.updateLocation(user.id, location, err => {
             if (err) console.log(err);

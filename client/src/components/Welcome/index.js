@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchBusinesses } from '../../redux/businesses';
 import glamorous, { Div } from 'glamorous';
+
+import { fetchBusinesses } from '../../redux/businesses';
 
 import Search from './Search';
 
@@ -10,8 +11,7 @@ const Root = glamorous.div({
   margin: '50px 0',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
-  flex: 'initial' // 1 when there are no results
+  justifyContent: 'center'
 }, ({withResults}) => {
   return withResults
     ? { flex: 'initial' }

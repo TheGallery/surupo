@@ -1,7 +1,13 @@
 const attendance = require('express').Router();
 const attendanceCtrl = require('../../controllers/attendance');
 
-// Need to take a loot at this.
+/**
+ * Get the attendance of the curently displayed businesses
+ *
+ * Note: This should probably be converetd to a GET endpoint
+ *
+ * We expect to receive a businessIds array in the request body.
+ */
 attendance.post('/getAll', (req, res) => {
   attendanceCtrl.get(req.body.businessIds, (err, attendance) => {
     if (err) {
@@ -12,6 +18,7 @@ attendance.post('/getAll', (req, res) => {
   });
 });
 
+// Increment attendance based on businesssId
 attendance.post('/', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({error: 'User is not authenticated'});
@@ -26,6 +33,7 @@ attendance.post('/', (req, res) => {
   });
 });
 
+// Decrement attendance based on businessId
 attendance.delete('/', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({error: 'User is not authenticated'});

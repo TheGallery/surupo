@@ -13,12 +13,4 @@ auth.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-auth.get('/', (req, res) => {
-  if (req.isAuthenticated()) {
-    return res.json(req.user);
-  }
-
-  return res.send('User is not authenticated');
-});
-
 module.exports = auth;

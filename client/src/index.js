@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom';
-import routes from './config/routes';
 import { css } from 'glamor';
 import 'glamor/reset';
+
+import routes from './config/routes';
 
 css.global('html, body', {
   fontFamily: 'Nunito, sans-serif',
