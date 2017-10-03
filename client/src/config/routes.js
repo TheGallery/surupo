@@ -1,11 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from '../redux/store';
 import glamorous from 'glamorous';
 
 import Welcome from '../components/Welcome';
 import Businesses from '../components/Businesses';
 import Signin from '../components/Signin';
 import Authentication from '../components/Authentication';
+import Footer from '../components/Footer';
+
+import { isAuthenticated } from '../utils/user';
 
 const App = glamorous.div({
   minHeight: '100vh',
@@ -24,21 +29,26 @@ const Container = glamorous.div({
   alignItems: 'center'
 });
 
-const isAuthenticated = false;
-
 const routes = (
-  <Router>
-    <App>
-      <Route path='/' exact render={(props) => (
-        <Container>
-          <Authentication isAuthenticated={isAuthenticated} />
-          <Welcome />
-          <Businesses />
-        </Container>
-      )} />
-      <Route path='/signin' render={Signin} />
-    </App>
-  </Router>
+  <Provider store={store}>
+    <Router>
+      <App>
+        <Route path='/' exact render={(props) => (
+          <Container>
+            <Authentication isAuthenticated={isAuthenticated()} />
+            <Welcome />
+            <Businesses history={props.history} />
+            <Footer />
+          </Container>
+        )} />
+        <Route path='/signin' render={() => (
+          isAuthenticated()
+            ? <Redirect to='/' />
+            : <Signin />
+        )} />
+      </App>
+    </Router>
+  </Provider>
 );
 
 export default routes;

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchBusinesses } from '../../redux/businesses';
 import glamorous, { Div } from 'glamorous';
 
 import Search from './Search';
@@ -10,6 +12,10 @@ const Root = glamorous.div({
   alignItems: 'center',
   justifyContent: 'center',
   flex: 'initial' // 1 when there are no results
+}, ({withResults}) => {
+  return withResults
+    ? { flex: 'initial' }
+    : { flex: 1 };
 });
 
 const Title = glamorous.div({
@@ -21,26 +27,38 @@ const Title = glamorous.div({
 
 class Welcome extends Component {
   state = {
-    searching: false
+    location: ''
   };
 
-  onLocationSearch = () => {
-    this.setState({
-      searching: true
-    });
+  // Shared event binding. Used when we press enter on the field or
+  // when clicking the submit button.
+  onLocationSearch = (e) => {
+    if ((e.type === 'keypress' && e.key === 'Enter') || e.type === 'click') {
+      if (this.state.location.length) {
+        this.props.fetchBusinesses(this.state.location);
+      }
+    }
   };
+
+  onLocationChange = ({target}) => {
+    this.setState({
+      location: target.value
+    });
+  }
 
   render () {
     return (
-      <Root>
+      <Root withResults={this.props.withResults}>
         <Div color='white' textAlign='center'>
           <Title>Surupo</Title>
           <Div fontWeight='bold' marginTop='-20px'>
-            Going out tonight? Let people know.
+            Going out tonight? Check-in in advance.
           </Div>
         </Div>
         <Search
-          searching={this.state.searching}
+          fetching={this.props.fetching}
+          location={this.state.location}
+          onLocationChange={this.onLocationChange}
           onLocationSearch={this.onLocationSearch}
         />
       </Root>
@@ -48,4 +66,17 @@ class Welcome extends Component {
   }
 }
 
-export default Welcome;
+function mapStateToProps (state) {
+  return {
+    withResults: !!state.businesses.location,
+    fetching: state.businesses.fetching
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    fetchBusinesses: (location) => dispatch(fetchBusinesses(location))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Welcome);

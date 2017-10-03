@@ -11,10 +11,10 @@ const Highlight = glamorous.span({
   fontWeight: 'bold'
 });
 
-function Header () {
+function Header ({location}) {
   return (
     <Root>
-      Showing businesses in <Highlight>New York, USA</Highlight> area.
+      Showing businesses in <Highlight>{location}</Highlight> area.
     </Root>
   );
 }

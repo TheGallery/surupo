@@ -21,8 +21,13 @@ exports.getBusinesses = function (location, user, cb) {
         cb(null, res.jsonBody.businesses);
       })
       .catch(err => {
-        console.log(err);
-        cb({error: 'Error fetching businesses from Yelp.'});
+        // The user has requested an invalid location. Return an empty business
+        // array instead of an error.
+        if (err.statusCode === 400) {
+          cb(null, []);
+        } else {
+          cb({error: 'Error fetching businesses from Yelp.'});
+        }
       });
     })
     .catch(err => {

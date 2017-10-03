@@ -1,7 +1,11 @@
 const users = require('express').Router();
 
-users.get('/', (req, res) => {
-  res.send('Hey this is user');
+users.get('/me', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json(req.user);
+  } else {
+    res.json(null);
+  }
 });
 
 module.exports = users;

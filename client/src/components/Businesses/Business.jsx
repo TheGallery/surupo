@@ -49,10 +49,15 @@ const Image = glamorous.div({
   marginRight: 'auto'
 }, ({src}) => ({ backgroundImage: `url(${src})` }));
 
-const Title = glamorous.div({
+const Title = glamorous.a({
   fontWeight: 'bold',
   fontSize: '1.2rem',
-  marginBottom: '5px'
+  marginBottom: '5px',
+  color: 'white',
+  textDecoration: 'none',
+  ':hover': {
+    textDecoration: 'underline'
+  }
 });
 
 const Counter = glamorous.div({
@@ -90,24 +95,54 @@ const AttendButton = glamorous.button({
   }
 });
 
-function Business () {
+const Info = glamorous.div({
+  display: 'flex',
+  flexDirection: 'column'
+});
+
+const InfoItem = glamorous.div({
+  marginTop: '5px'
+});
+
+function Business (props) {
+  const {
+    attendingCount,
+    business,
+    isAttending,
+    onAttendClick
+  } = props;
+
   return (
     <Root>
       <Content>
-        <Image src={process.env.PUBLIC_URL + '/sample.jpg'} />
+        <Image src={business.image_url} />
         <Div flex={1} padding='5px 10px'>
-          <Title>The Burger House</Title>
-          <Div overlfow='hidden'>
-          Then cats take over the world dead stare with ears cocked so intently stare at the same spot cats making all the muffins yet sleep on keyboard. Give attitude meow to be let in for meow for food, then when human fills food dish, take a few bites of food and continue meowing. Walk on car leaving trail of paw prints on hood and windshield purr for no reason. Jump around on couch, meow constantly until given food, poop in litter box, scratch the walls for throw down all the stuff in the kitchen so why must they do that, or swat at dog. Howl on top of tall thing milk the cow or mrow and love to play with owner's hair tie fooled again thinking the dog likes me Gate keepers of hell. Lick the plastic bag hiss at vacuum cleaner for meow all night, and jumps off balcony gives owner dead mouse at present then poops in litter box snatches yarn and fights with dog cat chases laser then plays in grass finds tiny spot in cupboard and sleeps all day jumps in bathtub and meows when owner fills food dish the cat knocks over the food dish cat slides down the water slide and into pool and swims even though it does not like water so head nudges purrr purr littel cat, little cat purr purr crash against wall but walk away like nothing happened. Plays league of legends
-          </Div>
+          <Title href={business.url}>{business.name}</Title>
+          <Info>
+            <InfoItem>
+              <i className='fa fa-map-marker' />
+              {
+                ` ${business.location.display_address[0]},
+                ${business.location.display_address[1]} `
+              }
+            </InfoItem>
+            <InfoItem>
+              <i className='fa fa-phone' />
+              { ` ${business.display_phone || '-'}`}
+            </InfoItem>
+          </Info>
         </Div>
       </Content>
       <Attending>
         <Counter>
-          3 <br />
+          {attendingCount} <br />
           Attending
         </Counter>
-        <AttendButton>Attend</AttendButton>
+        <AttendButton onClick={onAttendClick.bind(null, business.id, isAttending)}>
+        {
+          isAttending ? 'Remove' : 'Attend'
+        }
+        </AttendButton>
       </Attending>
     </Root>
   );

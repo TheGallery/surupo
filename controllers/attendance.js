@@ -3,24 +3,25 @@ const Attendance = mongoose.model('Attendance');
 const Users = mongoose.model('Users');
 
 exports.add = function (user, businessId, cb) {
-  Attendance.findOneAndUpdate({
-    businessId
-  }, {
-    $setOnInsert: {
-      businessId
-    },
-    $inc: {
-      attending: 1
+  Users.updateOne({_id: user.id}, {
+    $addToSet: {
+      attendance: businessId
     }
-  }, {
-    upsert: true
-  }).exec(err => {
-    if (err) return cb(err);
+  })
+  .exec((err, result) => {
+    // if nModified is 0, the user is already attending.
+    if (err || !result.nModified) return cb(err);
 
-    Users.updateOne({_id: user.id}, {
-      $push: {
-        attendance: businessId
+    Attendance.findOneAndUpdate({businessId}, {
+      $setOnInsert: {
+        businessId
+      },
+      $inc: {
+        attending: 1
       }
+    }, {
+      upsert: true,
+      new: true
     }).exec(cb);
   });
 };
@@ -34,19 +35,28 @@ exports.get = function (businesses, cb) {
 };
 
 exports.remove = function (user, businessId, cb) {
-  Attendance.updateOne({
-    businessId
-  }, {
-    $inc: {
-      attending: -1
+  Users.updateOne({_id: user.id}, {
+    $pull: {
+      attendance: businessId
     }
-  }).exec(err => {
-    if (err) return cb(err);
+  }, {
+    new: true
+  })
+  .exec((err, result) => {
+    if (err || result.nModified !== 1) return cb(err);
 
-    Users.updateOne({_id: user.id}, {
-      $pull: {
-        attendance: businessId
+    Attendance.findOneAndUpdate({
+      businessId
+    }, {
+      $inc: {
+        attending: -1
       }
-    }).exec(cb);
+    }, {
+      new: true
+    }).exec((err, attendance) => {
+      if (err) return cb(err);
+
+      cb(null, attendance);
+    });
   });
 };

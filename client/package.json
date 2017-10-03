@@ -5,6 +5,7 @@
   "dependencies": {
     "glamor": "2.20.40",
     "glamorous": "4.9.7",
+    "lodash": "4.17.4",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-redux": "5.0.6",
@@ -20,5 +21,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "proxy": {
+    "/auth": {
+      "target": "http://localhost:3001"
+    },
+    "/api": {
+      "target": "http://localhost:3001"
+    }
   }
 }

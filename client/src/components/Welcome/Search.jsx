@@ -51,19 +51,27 @@ const Spinner = glamorous.img({
 
 function Search (props) {
   const {
-    searching,
+    location,
+    fetching,
+    onLocationChange,
     onLocationSearch
   } = props;
 
   return (
     <Root>
-      <SearchInput placeholder='Where are you located?' />
-      <SearchButton onClick={onLocationSearch} disabled={searching}>
+      <SearchInput
+        value={location}
+        placeholder='Where are you located?'
+        onKeyPress={onLocationSearch}
+        onChange={onLocationChange}
+        disabled={fetching}
+      />
+      <SearchButton onClick={onLocationSearch} disabled={fetching}>
         <Spinner
           src={process.env.PUBLIC_URL + '/loading.svg'}
-          active={searching}
+          active={fetching}
         />
-        { searching ? 'Searching...' : 'Find Businesses' }
+        { fetching ? 'Searching...' : 'Find Businesses' }
       </SearchButton>
     </Root>
   );

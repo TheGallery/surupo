@@ -1,0 +1,12 @@
+// Business actions
+export const FETCH_BUSINESSES = 'FETCH_BUSINESSES';
+export const REQUEST_BUSINESSES = 'REQUEST_BUSINESSES';
+export const RECEIVE_BUSINESSES = 'RECEIVE_BUSINESSES';
+
+// User action
+export const RECEIVE_USER = 'RECEIVE_USER';
+export const ADD_USER_ATTENDANCE = 'ADD_USER_ATTENDANCE';
+export const REMOVE_USER_ATTENDANCE = 'REMOVE_USER_ATTENDANCE';
+
+// Attendance actions
+export const RECEIVE_ATTENDANCE = 'RECEIVE_ATTENDANCE';

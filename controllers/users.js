@@ -18,7 +18,7 @@ exports.login = function (profile, cb) {
 };
 
 exports.getOne = function (id, cb) {
-  Users.findById(id).exec(cb);
+  Users.findById(id).select('attendance location').exec(cb);
 };
 
 exports.updateLocation = function (userId, location, cb) {
