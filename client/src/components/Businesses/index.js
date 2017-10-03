@@ -32,12 +32,12 @@ class Businesses extends Component {
     // if the user is not authenticated, redirect to signin page
     if (!this.props.user) {
       this.props.history.push('/signin');
-    }
-
-    if (isAttending) {
-      this.props.removeAttendance(businessId);
     } else {
-      this.props.addAttendance(businessId);
+      if (isAttending) {
+        this.props.removeAttendance(businessId);
+      } else {
+        this.props.addAttendance(businessId);
+      }
     }
   };
 
